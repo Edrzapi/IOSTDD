@@ -9,6 +9,7 @@ A simple teaching app built with SwiftUI, designed for Test-Driven Development (
 - [Prerequisites](#prerequisites)  
 - [Setup Environment](#setup-environment)  
 - [Getting Started](#getting-started)  
+- [Building and Running from the Command Line](#building-and-running-from-the-command-line)  
 - [Running Tests](#running-tests)  
 - [Resources](#resources)  
 - [Purpose](#purpose)  
@@ -44,6 +45,39 @@ open IOSTDD.xcodeproj
 
 ---
 
+## Building and Running from the Command Line
+
+### Build the App
+
+```bash
+xcodebuild build   -project IOSTDD.xcodeproj   -scheme IOSTDD   -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest'
+```
+
+### Run the App on Simulator After Resetting
+
+Here is an example of how you can reset the simulator, build the app, and launch it directly from the command line:
+
+```bash
+# Reset all simulators to a clean state
+xcrun simctl erase all
+
+# Boot the desired simulator
+xcrun simctl boot "iPhone 15"
+
+# Build the app for the simulator
+xcodebuild build   -project IOSTDD.xcodeproj   -scheme IOSTDD   -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest'
+
+# Install the built app onto the booted simulator
+xcrun simctl install booted ./Build/Products/Debug-iphonesimulator/IOSTDD.app
+
+# Launch the app
+xcrun simctl launch booted com.yourcompany.IOSTDD
+```
+
+> Replace `com.yourcompany.IOSTDD` with your app’s actual bundle identifier.
+
+---
+
 ## Running Tests
 
 ### Unit Tests
@@ -66,12 +100,16 @@ UI tests live under the **IOSTDDUITests** target.
   Select the **IOSTDDUITests** scheme, then press **⌘U**.
 
 - **From the command line**  
-  ```bash
-  # (Optionally reset simulator)
-  xcrun simctl erase all
 
-  xcodebuild test     -project IOSTDD.xcodeproj     -scheme IOSTDDUITests     -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest'
-  ```
+Here is an example of how you can reset the simulator and run your UI tests from the command line:
+
+```bash
+# (Optionally reset simulator)
+xcrun simctl erase all
+
+# Run UI Tests
+xcodebuild test   -project IOSTDD.xcodeproj   -scheme IOSTDDUITests   -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest'
+```
 
 ---
 
