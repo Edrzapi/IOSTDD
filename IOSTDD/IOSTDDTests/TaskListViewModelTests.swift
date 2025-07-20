@@ -13,7 +13,3 @@ final class TaskListViewModelTests: XCTestCase {
                       "A new TaskListViewModel should start with an empty tasks array")
     }
 }
-
-
-
-
