@@ -8,8 +8,7 @@ final class TaskListViewModel: ObservableObject {
         let trimmed = title.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return }
         
-        let newTask = Task(title: trimmed)
-        tasks.append(newTask)
+        tasks.append(Task(title: trimmed))
     }
     
     func removeTask(id: UUID) {
