@@ -5,10 +5,7 @@ final class TaskListViewModel: ObservableObject {
     @Published private(set) var tasks: [Task] = []
     
     func addTask(title: String) {
-        let trimmed = title.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty else { return }
-        
-        let newTask = Task(title: trimmed)
+        let newTask = Task(title: title)
         tasks.append(newTask)
     }
     
