@@ -33,4 +33,16 @@ final class TaskListViewModelTests: XCTestCase {
         vm.addTask(title: "   ")
         XCTAssertTrue(vm.tasks.isEmpty, "Tasks with empty or whitespace-only titles should not be added.")
     }
+    
+    // MARK: - Stub Service Tests
+    @MainActor
+    func testInit_withStubRepository_loadsStubTasks() {
+        let stub = FakeRepository()
+        let vm = TaskListViewModel(repository: stub)
+        
+        XCTAssertEqual(vm.tasks.map(\.title),
+                       ["Stub Task 1", "Stub Task 2"],
+                       "TaskListViewModel should load tasks from the stub repository on init.")
+    }	
+
 }
