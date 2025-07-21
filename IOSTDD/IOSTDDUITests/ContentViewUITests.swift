@@ -32,10 +32,10 @@ final class ContentViewUITests: XCTestCase {
         let newTask = app.staticTexts["New Task"]
         XCTAssertTrue(newTask.waitForExistence(timeout: 1), "The new task should appear in the list after tapping 'Add Task'.")
         
-        let deleteButton = app.buttons["Delete Task"]
-        XCTAssertTrue(deleteButton.exists, "The 'Delete Task' button should exist next to the task.")
+        let deleteButton = app.buttons.matching(identifier: "Delete Task").firstMatch
+        XCTAssertTrue(deleteButton.exists)
         deleteButton.tap()
-        
+
         XCTAssertFalse(newTask.exists, "After tapping 'Delete Task', the task should be removed from the list.")
     }
 }

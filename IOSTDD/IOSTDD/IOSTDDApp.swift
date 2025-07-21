@@ -4,7 +4,7 @@ import SwiftUI
 struct IOSTDDApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TaskListView()
         }
     }
 }
