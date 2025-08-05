@@ -1,20 +1,17 @@
+
 import Foundation
 
-final class FakeRepository: RepositoryProtocol {
-    private var storedTasks: [Task] = [
-        Task(title: "Stub Task 1"),
-        Task(title: "Stub Task 2")
-    ]
-    
-    func fetchTasks() -> [Task] {
-        return storedTasks
+actor FakeRepository: RepositoryProtocol {
+    private(set) var storedTasks: [TodoItem]
+    init(seedTasks: [TodoItem] = [
+        TodoItem(title: "Stub Task 1"),
+        TodoItem(title: "Stub Task 2")
+    ]) {
+        self.storedTasks = seedTasks
     }
-    
-    func addTask(_ task: Task) {
-        storedTasks.append(task)
-    }
-    
-    func removeTask(by id: UUID) {
-        storedTasks.removeAll { $0.id == id }
-    }
+    func fetchTasks() async -> [TodoItem] { storedTasks }
+    func addTask(_ task: TodoItem) async { storedTasks.append(task) }
+    func removeTask(by id: UUID) async { storedTasks.removeAll { $0.id == id } }
 }
+
+

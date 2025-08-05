@@ -1,5 +1,7 @@
 import Foundation
 
-protocol RepositoryProtocol: AnyObject {
-    func fetchTasks() -> [Task]
+protocol RepositoryProtocol: Sendable {
+    func fetchTasks() async -> [TodoItem]
+    func addTask(_ task: TodoItem) async
+    func removeTask(by id: UUID) async
 }

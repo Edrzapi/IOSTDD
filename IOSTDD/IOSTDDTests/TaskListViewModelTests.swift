@@ -3,53 +3,74 @@ import XCTest
 
 final class TaskListViewModelTests: XCTestCase {
 
-    var stubRepository: RepositoryProtocol!
-
-    override func setUpWithError() throws {
-        try super.setUpWithError()
-        stubRepository = EmptyStubRepository()
-    }
-    override func tearDownWithError() throws {
-        stubRepository = nil
-        try super.tearDownWithError()
-    }
-
+    // MARK: — Loading tasks
     @MainActor
-    func testTasks_AreEmptyOnInit() {
-        let viewModel = TaskListViewModel(repository: stubRepository)
-        XCTAssertTrue(viewModel.tasks.isEmpty, "TaskListViewModel should start with an empty task list.")
-    }
+    func testLoadTasks_PopulatesTasksFromRepository() async {
+        let repository = FakeRepository()       // default seeds: ["Stub Task 1", "Stub Task 2"]
+        let viewModel = TaskListViewModel(repository: repository)
 
-    @MainActor
-    func testAddTask_IncreasesTaskCount() {
-        let viewModel = TaskListViewModel(repository: stubRepository)
-        viewModel.addTask(title: "Test Task")
-        XCTAssertEqual(viewModel.tasks.count, 1, "Adding a task should increase the task count.")
-        XCTAssertEqual(viewModel.tasks.first?.title, "Test Task", "The added task should have the correct title.")
-    }
+        await viewModel.loadTasks()
 
-    @MainActor
-    func testRemoveTask_DecreasesTaskCount() {
-        let viewModel = TaskListViewModel(repository: stubRepository)
-        viewModel.addTask(title: "Task to Remove")
-        let task = viewModel.tasks.first!
-        viewModel.removeTask(id: task.id)
-        XCTAssertTrue(viewModel.tasks.isEmpty, "Removing a task should result in an empty task list.")
-    }
-
-    @MainActor
-    func testAddTask_IgnoresEmptyOrWhitespaceTitle() {
-        let viewModel = TaskListViewModel(repository: stubRepository)
-        viewModel.addTask(title: "")
-        viewModel.addTask(title: "   ")
-        XCTAssertTrue(viewModel.tasks.isEmpty, "Tasks with empty or whitespace-only titles should not be added.")
-    }
-
-    @MainActor
-    func testInit_withFakeRepository_loadsStubTasks() {
-        let viewModel = TaskListViewModel(repository: FakeRepository())
         XCTAssertEqual(viewModel.tasks.map(\.title),
                        ["Stub Task 1", "Stub Task 2"],
-                       "TaskListViewModel should load tasks from the stub repository on init.")
+                       "After calling loadTasks(), the viewModel should reflect the repository's seed data.")
+    }
+
+    // MARK: — Adding tasks
+    @MainActor
+    func testAddTask_AppendsToViewModelAndRepository() async {
+        let repository = FakeRepository(seedTasks: [])
+        let viewModel = TaskListViewModel(repository: repository)
+
+        
+        await viewModel.addTask(title: "New")
+
+        
+        XCTAssertEqual(viewModel.tasks.count, 1,
+                       "Calling addTask should increase the viewModel’s tasks count.")
+
+
+        let repoTasks = await repository.fetchTasks()
+        XCTAssertEqual(repoTasks.count, 1,
+                       "Calling addTask should also update the repository’s storedTasks.")
+    }
+
+    @MainActor
+    func testAddTask_IgnoresEmptyTitle() async {
+        let repository = FakeRepository(seedTasks: [])
+        let viewModel = TaskListViewModel(repository: repository)
+
+
+        await viewModel.addTask(title: "")
+        await viewModel.addTask(title: "   ")
+
+
+        XCTAssertTrue(viewModel.tasks.isEmpty,
+                      "Passing empty or whitespace-only titles should not add tasks to the viewModel.")
+
+
+        let repoTasks = await repository.fetchTasks()
+        XCTAssertTrue(repoTasks.isEmpty,
+                      "Passing invalid titles should not modify the repository.")
+    }
+
+    // MARK: — Removing tasks
+    @MainActor
+    func testRemoveTask_RemovesFromViewModelAndRepository() async {
+        let task = TodoItem(title: "To Remove")
+        let repository = FakeRepository(seedTasks: [task])
+        let viewModel = TaskListViewModel(repository: repository)
+
+        
+        await viewModel.removeTask(id: task.id)
+
+        
+        XCTAssertTrue(viewModel.tasks.isEmpty,
+                      "After removeTask, the viewModel’s tasks should be empty.")
+
+        
+        let repoTasks = await repository.fetchTasks()
+        XCTAssertTrue(repoTasks.isEmpty,
+                      "After removeTask, the repository’s storedTasks should be empty.")
     }
 }
