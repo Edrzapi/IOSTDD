@@ -1,12 +1,16 @@
-// TaskService.swift
 import Foundation
 
-/// A service that encapsulates task-creation and deletion logic.
+/// A service that encapsulates task-creation, deletion, and fetching logic.
 actor TaskService {
     private let repository: RepositoryProtocol
 
     init(repository: RepositoryProtocol) {
         self.repository = repository
+    }
+
+    /// Fetches all tasks from the repository.
+    func fetchTasks() async -> [TodoItem] {
+        await repository.fetchTasks()
     }
 
     /// Creates a new task with the given title by forwarding to the repository.
