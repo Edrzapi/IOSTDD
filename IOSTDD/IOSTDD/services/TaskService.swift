@@ -2,7 +2,7 @@
 import Foundation
 
 /// A service that encapsulates task-creation and deletion logic.
-final class TaskService {
+actor TaskService {
     private let repository: RepositoryProtocol
 
     init(repository: RepositoryProtocol) {

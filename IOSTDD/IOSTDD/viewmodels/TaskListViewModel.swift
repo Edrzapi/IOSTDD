@@ -3,11 +3,14 @@ import Foundation
 @MainActor
 final class TaskListViewModel: ObservableObject {
     @Published private(set) var tasks: [TodoItem] = []
+    
     private let repository: RepositoryProtocol
+    private let service: TaskService
 
     /// Now takes any async-capable repository; defaults to your FakeRepository.
     init(repository: RepositoryProtocol = FakeRepository()) {
         self.repository = repository
+        self.service = TaskService(repository: repository)
     }
 
     /// Loads all tasks from the repository asynchronously.
@@ -15,19 +18,18 @@ final class TaskListViewModel: ObservableObject {
         tasks = await repository.fetchTasks()
     }
 
-    /// Adds a non-empty task and refreshes the list.
+    /// Adds a non-empty task via the service, then refreshes the list.
     func addTask(title: String) async {
         let trimmed = title.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return }
 
-        let newTask = TodoItem(title: trimmed)
-        await repository.addTask(newTask)
+        await service.createTask(title: trimmed)
         await loadTasks()
     }
 
-    /// Removes by ID and refreshes the list.
+    /// Removes by ID via the service, then refreshes the list.
     func removeTask(id: UUID) async {
-        await repository.removeTask(by: id)
+        await service.deleteTask(id: id)
         await loadTasks()
     }
 }
