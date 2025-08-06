@@ -1,6 +1,6 @@
 # IOSTDD 📱
 
-A simple teaching app built with SwiftUI, designed for Test-Driven Development (TDD) practice. This project mirrors the Android version and helps iOS developers explore key concepts in unit testing, UI testing, and clean architecture.
+A simple teaching app built with SwiftUI, designed for Test-Driven Development (TDD) practice. This project helps iOS developers explore key concepts in unit testing, UI testing, and clean architecture.
 
 ---
 
@@ -123,4 +123,4 @@ xcodebuild test   -project IOSTDD.xcodeproj   -scheme IOSTDDUITests   -destinati
 
 ## Purpose
 
-IOSTDD is designed to accompany tutorials and learning sessions on iOS development, clean architecture, and test-driven practices. It mirrors the Android version feature-for-feature, providing a consistent cross-platform teaching experience.
+IOSTDD is designed to accompany tutorials and learning sessions on iOS development, clean architecture, and test-driven practices.
