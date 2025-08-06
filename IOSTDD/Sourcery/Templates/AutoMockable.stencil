@@ -1,0 +1,29 @@
+{% for type in types.protocols where type.annotations.AutoMockable %}
+actor {{ type.name }}Mock: {{ type.name }} {
+
+    // MARK: - Call Tracking
+
+    {% for method in type.methods %}
+    var {{ method.name }}Called = false
+    {% for param in method.parameters %}
+    var {{ method.name }}_{{ param.name }}: {{ param.typeName }}?
+    {% endfor %}
+    {% endfor %}
+
+    // MARK: - Protocol Conformance
+
+    {% for method in type.methods %}
+    func {{ method.name }}({% for param in method.parameters %}{{ param.name }}: {{ param.typeName }}{% if not forloop.last %}, {% endif %}{% endfor %}) {% if method.async %}async {% endif %}{% if method.throws %}throws {% endif %}{{ method.returnTypeName }} {
+        {{ method.name }}Called = true
+        {% for param in method.parameters %}
+        self.{{ method.name }}_{{ param.name }} = {{ param.name }}
+        {% endfor %}
+        {% if method.returnTypeName != "Void" and method.returnTypeName != "()" %}
+        // TODO: Return a stubbed value here
+        fatalError("Mock for {{ method.name }} must return a value")
+        {% endif %}
+    }
+    {% endfor %}
+
+}
+{% endfor %}
