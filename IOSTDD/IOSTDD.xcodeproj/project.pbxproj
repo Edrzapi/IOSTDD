@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B03BDA092E43CE2000DFD6E1 /* Cuckoo in Frameworks */ = {isa = PBXBuildFile; productRef = B03BDA082E43CE2000DFD6E1 /* Cuckoo */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		B0372BF82E2D6CE1008799D0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -59,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B03BDA092E43CE2000DFD6E1 /* Cuckoo in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,6 +140,7 @@
 			);
 			name = IOSTDDTests;
 			packageProductDependencies = (
+				B03BDA082E43CE2000DFD6E1 /* Cuckoo */,
 			);
 			productName = IOSTDDTests;
 			productReference = B0372BF72E2D6CE1008799D0 /* IOSTDDTests.xctest */;
@@ -197,6 +203,9 @@
 			);
 			mainGroup = B0372BDD2E2D6CDF008799D0;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				B03BDA072E43CE2000DFD6E1 /* XCRemoteSwiftPackageReference "Cuckoo" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B0372BE72E2D6CDF008799D0 /* Products */;
 			projectDirPath = "";
@@ -597,6 +606,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B03BDA072E43CE2000DFD6E1 /* XCRemoteSwiftPackageReference "Cuckoo" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Brightify/Cuckoo.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B03BDA082E43CE2000DFD6E1 /* Cuckoo */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B03BDA072E43CE2000DFD6E1 /* XCRemoteSwiftPackageReference "Cuckoo" */;
+			productName = Cuckoo;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B0372BDE2E2D6CDF008799D0 /* Project object */;
 }
