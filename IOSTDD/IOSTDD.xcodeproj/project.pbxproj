@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B03BDA092E43CE2000DFD6E1 /* Cuckoo in Frameworks */ = {isa = PBXBuildFile; productRef = B03BDA082E43CE2000DFD6E1 /* Cuckoo */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		B0372BF82E2D6CE1008799D0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -59,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B03BDA092E43CE2000DFD6E1 /* Cuckoo in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,6 +126,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B0372C0E2E2D6CE1008799D0 /* Build configuration list for PBXNativeTarget "IOSTDDTests" */;
 			buildPhases = (
+				B03BDA0A2E43CF1B00DFD6E1 /* ShellScript */,
 				B0372BF32E2D6CE1008799D0 /* Sources */,
 				B0372BF42E2D6CE1008799D0 /* Frameworks */,
 				B0372BF52E2D6CE1008799D0 /* Resources */,
@@ -135,6 +141,7 @@
 			);
 			name = IOSTDDTests;
 			packageProductDependencies = (
+				B03BDA082E43CE2000DFD6E1 /* Cuckoo */,
 			);
 			productName = IOSTDDTests;
 			productReference = B0372BF72E2D6CE1008799D0 /* IOSTDDTests.xctest */;
@@ -197,6 +204,9 @@
 			);
 			mainGroup = B0372BDD2E2D6CDF008799D0;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				B03BDA072E43CE2000DFD6E1 /* XCRemoteSwiftPackageReference "Cuckoo" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B0372BE72E2D6CDF008799D0 /* Products */;
 			projectDirPath = "";
@@ -232,6 +242,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B03BDA0A2E43CF1B00DFD6E1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 12;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/usr/bin/env bash\nset -euo pipefail\n\nPROTO_FILE=\"$SRCROOT/IOSTDD/repositories/RepositoryProtocol.swift\"\nOUTPUT_DIR=\"$SRCROOT/IOSTDDTests/Mocks\"\nmkdir -p \"$OUTPUT_DIR\"\n\n# Correctly resolve Cuckoo Generator path\nCUCKOO_PATH=$(find \"${BUILD_DIR%/Build/*}/SourcePackages/checkouts\" -name 'run' -path '*/Cuckoo/run' | head -n 1)\n\nif [ -z \"$CUCKOO_PATH\" ]; then\n  echo \"Error: Cuckoo generator not found.\"\n  exit 1\nfi\n\n/bin/echo \">>> RUNNING CUCKOO AT: $CUCKOO_PATH\"\n\n\"$CUCKOO_PATH\" generate \\\n  --testable \"IOSTDD\" \\\n  --output \"$OUTPUT_DIR\" \\\n  \"$PROTO_FILE\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B0372BE22E2D6CDF008799D0 /* Sources */ = {
@@ -597,6 +628,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B03BDA072E43CE2000DFD6E1 /* XCRemoteSwiftPackageReference "Cuckoo" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Brightify/Cuckoo.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B03BDA082E43CE2000DFD6E1 /* Cuckoo */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B03BDA072E43CE2000DFD6E1 /* XCRemoteSwiftPackageReference "Cuckoo" */;
+			productName = Cuckoo;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B0372BDE2E2D6CDF008799D0 /* Project object */;
 }
