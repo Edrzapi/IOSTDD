@@ -6,7 +6,7 @@ final class TaskListViewModel: ObservableObject {
     
     private let service: TaskService
 
-    /// Now takes any async-capable service; defaults to your FakeRepository wrapped in a TaskService.
+    /// Now takes any async-capable service; defaults to a FakeRepository wrapped in a TaskService.
     init(service: TaskService = TaskService(repository: FakeRepository())) {
         self.service = service
     }
